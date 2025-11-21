@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# Spring Boot configs
+src/main/resources/application.properties
+
+# Firebase private key
+src/main/resources/firebase/serviceAccountKey.json

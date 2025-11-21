@@ -17,7 +17,7 @@ public class AIService {
 
     private final ChatClient chatClient;
     private final CheckinRepo checkinRepo;
-    private final RotinaService rotinaService;  // <-- ADICIONADO
+    private final RotinaService rotinaService;  
 
     public String enviarMensagemChat(String mensagem) {
         return chatClient

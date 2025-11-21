@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-
 import br.com.fiap.flowmind.model.CheckinDiario;
 import br.com.fiap.flowmind.model.Usuario;
 import br.com.fiap.flowmind.repository.CheckinRepo;
@@ -15,13 +14,20 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class CheckinService {
 
-    private CheckinRepo repository;
+    private final CheckinRepo repository;
+    private final FirebaseService firebase;
 
     public CheckinDiario salvar(CheckinDiario checkin) {
+
         if (checkin.getDataCheckin() == null) {
             checkin.setDataCheckin(LocalDate.now());
         }
-        return repository.save(checkin);
+
+        CheckinDiario salvo = repository.save(checkin);
+
+        firebase.syncCheckin(salvo);
+
+        return salvo;
     }
 
     public CheckinDiario buscar(Long id) {

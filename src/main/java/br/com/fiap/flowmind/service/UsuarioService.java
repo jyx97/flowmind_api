@@ -15,10 +15,8 @@ public class UsuarioService {
 
     private final UsuarioRepository repository;
 
-    // ---------- CADASTRAR USUÁRIO ----------
     public Usuario cadastrar(String nome, String email, String senha) {
 
-        // opcional: impedir cadastro duplicado
         Optional<Usuario> existente = repository.findByEmail(email);
 
         if (existente.isPresent()) {
@@ -33,16 +31,30 @@ public class UsuarioService {
         return repository.save(usuario);
     }
 
-    // ---------- BUSCAR POR ID ----------
     public Usuario buscarPorId(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
     }
 
-    // ---------- LOGIN ----------
     public Usuario login(String email, String senha) {
         return repository
                 .findByEmailAndSenha(email, senha)
                 .orElseThrow(() -> new EntityNotFoundException("Credenciais inválidas"));
+    }
+
+    public Usuario atualizar(Long id, String nome, String email, String senha) {
+
+        Usuario usuario = buscarPorId(id);
+
+        if (nome != null && !nome.isBlank()) usuario.setNome(nome);
+        if (email != null && !email.isBlank()) usuario.setEmail(email);
+        if (senha != null && !senha.isBlank()) usuario.setSenha(senha);
+
+        return repository.save(usuario);
+    }
+
+    public void deletar(Long id) {
+        Usuario usuario = buscarPorId(id);
+        repository.delete(usuario);
     }
 }

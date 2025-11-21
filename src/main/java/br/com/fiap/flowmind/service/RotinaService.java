@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 public class RotinaService {
 
     private final RotinaRepository repository;
+    private final FirebaseService firebase; 
 
     public RotinaDiaria salvarRotinaDoDia(Usuario usuario, String rotinaJson) {
 
@@ -27,7 +28,11 @@ public class RotinaService {
         rotina.setDataRotina(hoje);
         rotina.setRotinaJson(rotinaJson);
 
-        return repository.save(rotina);
+        RotinaDiaria salvo = repository.save(rotina);
+
+        firebase.syncRotina(salvo);
+
+        return salvo;
     }
 
     public RotinaDiaria buscarRotinaDoDia(Usuario usuario) {
@@ -41,13 +46,17 @@ public class RotinaService {
 
     public RotinaDiaria atualizarRotinaDoDia(Usuario usuario, String novaRotina) {
 
-    LocalDate hoje = LocalDate.now();
-    RotinaDiaria rotina = repository.findByUsuarioAndDataRotina(usuario, hoje)
-            .orElseThrow(() -> new EntityNotFoundException("Nenhuma rotina para hoje"));
+        LocalDate hoje = LocalDate.now();
 
-    rotina.setRotinaJson(novaRotina);
+        RotinaDiaria rotina = repository.findByUsuarioAndDataRotina(usuario, hoje)
+                .orElseThrow(() -> new EntityNotFoundException("Nenhuma rotina para hoje"));
 
-    return repository.save(rotina);
+        rotina.setRotinaJson(novaRotina);
+
+        RotinaDiaria salvo = repository.save(rotina);
+
+        firebase.syncRotina(salvo);
+
+        return salvo;
     }
-
 }
