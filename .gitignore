@@ -38,6 +38,7 @@ out/
 
 # Spring Boot configs
 src/main/resources/application.properties
+src/main/resources/application-*.properties
 
-# Firebase private key
+# Firebase key
 src/main/resources/firebase/serviceAccountKey.json
