@@ -175,6 +175,18 @@ O corpo da requisição **deve ser raw text** contendo a rotina editada.
 
 ---
 
+# 🔄 Fluxo completo com a API de IA (Python)
+
+Usuário faz check-in → salvo aqui
+Usuário conversa no chat → salvo aqui
+Rotina é gerada/editada → salvo aqui
+A API Python (outro repositório) lê esses dados do Firebase/PostgreSQL em tempo real
+Gera relatórios longos, gráficos e alertas de burnout
+App mobile (React Native) exibe tudo bonitinho
+
+
+---
+
 ## 👩‍💻 Integrantes
 
 | Nome                              | RM      |
